@@ -13,8 +13,9 @@ public class Zoo{
 	switch(s){
 	case NAME:
 	    animalLedger.sort(new AnimalNameComparator());
+        break;
 	case WEIGHT:
-	    //animalLedger.sort(new AnimalWeightComparator());
+	    animalLedger.sort(new AnimalWeightComparator());
 	}
 	
     }

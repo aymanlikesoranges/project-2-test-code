@@ -43,13 +43,8 @@ public class Driver{
 			      new Giraffe("Gerald"),
 			      new Clownfish("Garry")};
 	myZoo.addAnimal(animalArr);
-	stats(myZoo);
 	for(Animal a : myZoo.getLedgerCopy()){
-	    stats(a);
-	}
-	myZoo.sort(Zoo.SortType.NAME);
-	for(Animal a : myZoo.getLedgerCopy()){
-	    System.out.println(a.getName());
+		System.out.println(myZoo.getLedgerCopy().size());
 	}
     }
 }

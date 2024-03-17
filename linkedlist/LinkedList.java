@@ -15,8 +15,8 @@ public class LinkedList<T> implements Iterable<T>{
         if(head == null){
             head = temp;
             tail = temp;
+            return true;
         }
-
         tail.setNext(temp);
         temp.setPrev(tail);
         tail = temp;
@@ -82,108 +82,83 @@ public class LinkedList<T> implements Iterable<T>{
     }
 
     public void swap(Node<T> n1, Node<T> n2) {
-    if (n1 == n2) {
-        return; // No need to swap same nodes
-    }
-
-    // Check if n1 is adjacent to n2
-    if (n1.next == n2) {
-        Node<T> temp = n1.prev;
-        n1.prev = n2;
-        n1.next = n2.next;
-        n2.prev = temp;
-        n2.next = n1;
-        
-        if (temp != null) {
-            temp.next = n1;
+        if (n1 == n2) {
+            return; // No need to swap same nodes
         }
-        
-        if (n1.next != null) {
-            n1.next.prev = n1;
+    
+        // Check if n1 is adjacent to n2
+        if (n1.next == n2) {
+            Node<T> temp = n1.prev;
+            n1.prev = n2;
+            n1.next = n2.next;
+            n2.prev = temp;
+            n2.next = n1;
+            
+            if (temp != null) {
+                temp.next = n1;
+            }
+            
+            if (n1.next != null) {
+                n1.next.prev = n1;
+            }
+            return;
         }
-        return;
-    }
-
-    // Check if n2 is adjacent to n1
-    if (n2.next == n1) {
-        Node<T> temp = n2.prev;
-        n2.prev = n1.prev;
-        n2.next = n1;
-        n1.prev = temp;
-        n1.next = n2.next;
-        
-        if (temp != null) {
-            temp.next = n2;
+    
+        // Check if n2 is adjacent to n1
+        if (n2.next == n1) {
+            Node<T> temp = n2.prev;
+            n2.prev = n1.prev;
+            n2.next = n1;
+            n1.prev = temp;
+            n1.next = n2.next;
+            
+            if (temp != null) {
+                temp.next = n2;
+            }
+            
+            if (n2.next != null) {
+                n2.next.prev = n2;
+            }
+            return;
         }
-        
-        if (n2.next != null) {
-            n2.next.prev = n2;
+    
+        Node<T> temp1 = n1.prev;
+        Node<T> temp2 = n1.next;
+        Node<T> temp3 = n2.prev;
+        Node<T> temp4 = n2.next;
+    
+        // Update n1 links
+        n1.prev = temp3;
+        n1.next = temp4;
+    
+        // Update n2 links
+        n2.prev = temp1;
+        n2.next = temp2;
+    
+        // Update links of nodes adjacent to n1
+        if (temp1 != null) {
+            temp1.next = n2;
         }
-        return;
+    
+        if (temp2 != null) {
+            temp2.prev = n2;
+        }
+    
+        // Update links of nodes adjacent to n2
+        if (temp3 != null) {
+            temp3.next = n1;
+        }
+    
+        if (temp4 != null) {
+            temp4.prev = n1;
+        }
     }
-
-    Node<T> temp1 = n1.prev;
-    Node<T> temp2 = n1.next;
-    Node<T> temp3 = n2.prev;
-    Node<T> temp4 = n2.next;
-
-    // Update n1 links
-    n1.prev = temp3;
-    n1.next = temp4;
-
-    // Update n2 links
-    n2.prev = temp1;
-    n2.next = temp2;
-
-    // Update links of nodes adjacent to n1
-    if (temp1 != null) {
-        temp1.next = n2;
-    }
-
-    if (temp2 != null) {
-        temp2.prev = n2;
-    }
-
-    // Update links of nodes adjacent to n2
-    if (temp3 != null) {
-        temp3.next = n1;
-    }
-
-    if (temp4 != null) {
-        temp4.prev = n1;
-    }
-}
+    
 
 public void sort(Comparator<T> c) {
-    Node<T> curr;
-    Boolean swapped;
 
-    do {
-        swapped = false;
-        curr = head;
-
-        while (curr != null && curr.getNext() != null) {
-            Node<T> next = curr.getNext();
-
-            // Use the comparator to compare the data of the nodes
-            int comparisonResult = c.compare(curr.getData(), next.getData());
-
-            if (comparisonResult > 0) {
-                swap(curr, next);
-                swapped = true;
-
-                // Update prev pointer correctly after swap
-                if (curr.getPrev() != null) {
-                    curr = curr.getPrev(); // Move back one step after a swap
-                } else {
-                    head = curr; // If curr is now the head, update head reference
-                }
-            }
-
-            curr = next;
-        }
-    } while (swapped);
 }
+
 
 
 
@@ -203,12 +178,12 @@ public void sort(Comparator<T> c) {
     }
 
     public void setNext(Node<T> n){
-
+        this.next = n;
     }
-
+    
     public void setPrev(Node<T> n) {
-        
-    }
+        this.prev = n;
+    }    
 
     public T getData(){
         return data;
@@ -274,6 +249,7 @@ public void sort(Comparator<T> c) {
      */
     public LinkedList(){
 	this.head = null;
+    this.tail = null;
     }
 
     /**
